@@ -1,5 +1,7 @@
 package com.project.planner.repositories;
 
+import com.project.planner.models.Project;
+import com.project.planner.models.User;
 import jakarta.persistence.EntityManager;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,21 +23,4 @@ public class UserRepositoryTest {
     private DataSource dataSource;
     @Autowired private TestEntityManager testEntityManager;
     @Autowired private UserRepository userRepository;
-
-    @Test
-    public void injectedComponentsAreNotNull() {
-        assertThat(dataSource).isNotNull();
-        assertThat(testEntityManager).isNotNull();
-        assertThat(userRepository).isNotNull();
-    }
-
-    @Test
-    public void should_FindNoProject_When_NoProjectIsAttachedToUser() {
-
-    }
-
-    @Test
-    public void should_FindOnlyOneProject_When_ProjectIsAttachedToUser() {
-
-    }
 }

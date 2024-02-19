@@ -23,6 +23,14 @@ public class User implements UserDetails {
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
 
+    public User() {
+    }
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

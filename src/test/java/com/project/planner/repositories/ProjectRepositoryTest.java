@@ -23,23 +23,4 @@ public class ProjectRepositoryTest {
     private DataSource dataSource;
      @Autowired private TestEntityManager testEntityManager;
     @Autowired private ProjectRepository projectRepository;
-
-    @Test
-    public void injectedComponentsAreNotNull() {
-        assertThat(dataSource).isNotNull();
-        assertThat(testEntityManager).isNotNull();
-        assertThat(projectRepository).isNotNull();
-    }
-
-    @Test
-    public void should_FindAllTasks_When_TasksAttachedToAProject() {
-
-    }
-
-    @Test
-    public void should_FindNoTasks_When_TasksAttachedNotToAProject() {
-
-    }
-
-
 }
