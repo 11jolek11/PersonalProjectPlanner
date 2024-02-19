@@ -44,6 +44,10 @@ public class Project {
         this.notes = notes;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public User getMaintainer() {
         return maintainer;
     }
