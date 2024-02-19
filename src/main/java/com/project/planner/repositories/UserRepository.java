@@ -1,4 +1,7 @@
 package com.project.planner.repositories;
 
-public class UserRepository {
+import com.project.planner.models.User;
+import org.springframework.data.repository.CrudRepository;
+
+public interface UserRepository extends CrudRepository<User, Long> {
 }
