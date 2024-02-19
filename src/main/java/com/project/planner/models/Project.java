@@ -19,12 +19,12 @@ public class Project {
     private String title;
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "originProject")
     private Set<Task> tasks;
     @Lob
     private String notes;
 
-    @OneToOne(mappedBy = "project", optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "project", optional = false, cascade = CascadeType.ALL)
     private User maintainer;
 
     public Project() {

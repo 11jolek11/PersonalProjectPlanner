@@ -28,6 +28,10 @@ public class Task {
 
     private LocalDate deadline;
 
+    @ManyToOne
+    @JoinColumn(name = "origin_project")
+    private Project originProject;
+
     public Task() {
     }
 
