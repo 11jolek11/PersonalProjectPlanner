@@ -1,6 +1,7 @@
 package com.project.planner.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,10 +14,11 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projectIdGen")
     private Long id;
 
+    @NotBlank
     private String title;
     private String description;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Task> tasks;
     @Lob
     private String notes;

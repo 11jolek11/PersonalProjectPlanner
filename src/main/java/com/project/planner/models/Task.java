@@ -1,6 +1,7 @@
 package com.project.planner.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class Task {
     @SequenceGenerator(name = "taskIdGen", initialValue = 0, allocationSize = 1, sequenceName = "taskIdSeq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taskIdGen")
     private Long id;
+    @NotBlank
     private String title;
     private String description;
     @Lob
