@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
 public class Project {
 
     @Id
@@ -23,20 +24,32 @@ public class Project {
     @Lob
     private String notes;
 
+    @OneToOne(mappedBy = "project", optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User maintainer;
+
     public Project() {
     }
 
-    public Project(String title, String description) {
+    public Project(User maintainer, String title, String description) {
+        this.maintainer = maintainer;
         this.title = title;
         this.description = description;
     }
 
-    public Project(Long id, String title, String description, Set<Task> tasks, String notes) {
-        this.id = id;
+    public Project(User maintainer, String title, String description, Set<Task> tasks, String notes) {
+        this.maintainer = maintainer;
         this.title = title;
         this.description = description;
         this.tasks = tasks;
         this.notes = notes;
+    }
+
+    public User getMaintainer() {
+        return maintainer;
+    }
+
+    public void setMaintainer(User maintainer) {
+        this.maintainer = maintainer;
     }
 
     public String getTitle() {
@@ -76,12 +89,12 @@ public class Project {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Project project = (Project) o;
-        return Objects.equals(id, project.id) && Objects.equals(title, project.title) && Objects.equals(description, project.description) && Objects.equals(tasks, project.tasks) && Objects.equals(notes, project.notes);
+        return Objects.equals(id, project.id) && Objects.equals(title, project.title) && Objects.equals(description, project.description) && Objects.equals(tasks, project.tasks) && Objects.equals(notes, project.notes) && Objects.equals(maintainer, project.maintainer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, tasks, notes);
+        return Objects.hash(id, title, description, tasks, notes, maintainer);
     }
 
     @Override
@@ -92,6 +105,7 @@ public class Project {
                 ", description='" + description + '\'' +
                 ", tasks=" + tasks +
                 ", notes='" + notes + '\'' +
+                ", maintainer=" + maintainer +
                 '}';
     }
 }
