@@ -28,4 +28,14 @@ public class UserRepositoryTest {
         assertThat(testEntityManager).isNotNull();
         assertThat(userRepository).isNotNull();
     }
+
+    @Test
+    public void should_FindNoProject_When_NoProjectIsAttachedToUser() {
+
+    }
+
+    @Test
+    public void should_FindOnlyOneProject_When_ProjectIsAttachedToUser() {
+
+    }
 }

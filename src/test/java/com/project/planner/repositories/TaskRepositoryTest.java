@@ -27,5 +27,4 @@ public class TaskRepositoryTest {
         assertThat(testEntityManager).isNotNull();
         assertThat(taskRepository).isNotNull();
     }
-
 }
