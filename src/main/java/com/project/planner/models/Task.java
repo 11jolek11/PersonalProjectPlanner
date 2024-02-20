@@ -1,6 +1,7 @@
 package com.project.planner.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ public class Task {
     @SequenceGenerator(name = "taskIdGen", initialValue = 0, allocationSize = 1, sequenceName = "taskIdSeq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taskIdGen")
     private Long id;
+    @NotBlank
     private String title;
     private String description;
     @Lob
@@ -26,17 +28,23 @@ public class Task {
 
     private LocalDate deadline;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "origin_project")
+    private Project originProject;
+
     public Task() {
     }
 
-    public Task(Long id, String title, String description, TaskStatus taskStatus) {
+    public Task(Long id, String title, String description, TaskStatus taskStatus, Project originProject) {
+        // TODO(11jolek11): Change constructor to builder pattern
         this.id = id;
         this.title = title;
         this.description = description;
         this.taskStatus = taskStatus;
+        this.originProject = originProject;
     }
 
-    public Task(Long id, String title, String description, String notes, TaskStatus taskStatus, LocalDate createdDate, LocalDate deadline) {
+    public Task(Long id, String title, String description, String notes, TaskStatus taskStatus, LocalDate createdDate, LocalDate deadline, Project originProject) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -44,6 +52,23 @@ public class Task {
         this.taskStatus = taskStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
+        this.originProject = originProject;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Project getOriginProject() {
+        return originProject;
+    }
+
+    public void setOriginProject(Project originProject) {
+        this.originProject = originProject;
     }
 
     public String getTitle() {

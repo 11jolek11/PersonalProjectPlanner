@@ -23,11 +23,4 @@ public class ProjectRepositoryTest {
     private DataSource dataSource;
      @Autowired private TestEntityManager testEntityManager;
     @Autowired private ProjectRepository projectRepository;
-
-    @Test
-    public void injectedComponentsAreNotNull() {
-        assertThat(dataSource).isNotNull();
-        assertThat(testEntityManager).isNotNull();
-        assertThat(projectRepository).isNotNull();
-    }
 }

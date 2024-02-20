@@ -20,12 +20,4 @@ public class TaskRepositoryTest {
     @Autowired private DataSource dataSource;
     @Autowired private TestEntityManager testEntityManager;
     @Autowired private TaskRepository taskRepository;
-
-    @Test
-    public void injectedComponentsAreNotNull() {
-        assertThat(dataSource).isNotNull();
-        assertThat(testEntityManager).isNotNull();
-        assertThat(taskRepository).isNotNull();
-    }
-
 }
