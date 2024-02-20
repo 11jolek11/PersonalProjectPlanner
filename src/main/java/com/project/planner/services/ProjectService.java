@@ -83,4 +83,7 @@ public class ProjectService {
     public void deleteProject(Long id) {
         this.projectRepository.deleteById(id);
     }
+
+    // TODO(11jolek11): Add option to add Task for projects
+
 }
