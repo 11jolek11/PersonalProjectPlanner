@@ -31,6 +31,7 @@ public class Project {
     }
 
     public Project(User maintainer, String title, String description) {
+        // TODO(11jolek11): Change constructor to builder pattern
         this.maintainer = maintainer;
         this.title = title;
         this.description = description;

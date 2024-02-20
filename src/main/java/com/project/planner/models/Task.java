@@ -28,21 +28,23 @@ public class Task {
 
     private LocalDate deadline;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "origin_project")
     private Project originProject;
 
     public Task() {
     }
 
-    public Task(Long id, String title, String description, TaskStatus taskStatus) {
+    public Task(Long id, String title, String description, TaskStatus taskStatus, Project originProject) {
+        // TODO(11jolek11): Change constructor to builder pattern
         this.id = id;
         this.title = title;
         this.description = description;
         this.taskStatus = taskStatus;
+        this.originProject = originProject;
     }
 
-    public Task(Long id, String title, String description, String notes, TaskStatus taskStatus, LocalDate createdDate, LocalDate deadline) {
+    public Task(Long id, String title, String description, String notes, TaskStatus taskStatus, LocalDate createdDate, LocalDate deadline, Project originProject) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -50,6 +52,23 @@ public class Task {
         this.taskStatus = taskStatus;
         this.createdDate = createdDate;
         this.deadline = deadline;
+        this.originProject = originProject;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Project getOriginProject() {
+        return originProject;
+    }
+
+    public void setOriginProject(Project originProject) {
+        this.originProject = originProject;
     }
 
     public String getTitle() {
