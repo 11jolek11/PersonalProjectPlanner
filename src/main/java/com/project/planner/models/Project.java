@@ -30,13 +30,6 @@ public class Project {
     public Project() {
     }
 
-    public Project(User maintainer, String title, String description) {
-        // TODO(11jolek11): Change constructor to builder pattern
-        this.maintainer = maintainer;
-        this.title = title;
-        this.description = description;
-    }
-
     public Project(User maintainer, String title, String description, Set<Task> tasks, String notes) {
         this.maintainer = maintainer;
         this.title = title;
@@ -112,5 +105,40 @@ public class Project {
                 ", notes='" + notes + '\'' +
                 ", maintainer=" + maintainer +
                 '}';
+    }
+
+    public static ProjectBuilder builder(User maintainer, String title) {
+        return new ProjectBuilder(maintainer, title);
+    }
+
+    public static class ProjectBuilder {
+        private final String title;
+        private String description;
+        private Set<Task> tasks;
+        private String notes;
+        private final User maintainer;
+
+        public ProjectBuilder(User maintainer, String title) {
+            this.maintainer = maintainer;
+            this.title = title;
+        }
+
+        public ProjectBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public ProjectBuilder notes(String notes) {
+            this.notes = notes;
+            return this;
+        }
+        public ProjectBuilder tasks(Set<Task> tasks) {
+            this.tasks = tasks;
+            return this;
+        }
+
+        public Project build() {
+            return new Project(this.maintainer, this.title, this.description, this.tasks, this.notes);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.project.planner.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "taskIdGen")
     private Long id;
     @NotBlank
+    @NotEmpty
     private String title;
     private String description;
     @Lob
@@ -24,7 +26,7 @@ public class Task {
     private TaskStatus taskStatus;
 
     @CreatedDate
-    private LocalDate createdDate;
+    private static LocalDate createdDate;
 
     private LocalDate deadline;
 
@@ -35,22 +37,11 @@ public class Task {
     public Task() {
     }
 
-    public Task(Long id, String title, String description, TaskStatus taskStatus, Project originProject) {
-        // TODO(11jolek11): Change constructor to builder pattern
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.taskStatus = taskStatus;
-        this.originProject = originProject;
-    }
-
-    public Task(Long id, String title, String description, String notes, TaskStatus taskStatus, LocalDate createdDate, LocalDate deadline, Project originProject) {
-        this.id = id;
+    public Task(String title, String description, String notes, TaskStatus taskStatus, LocalDate deadline, Project originProject) {
         this.title = title;
         this.description = description;
         this.notes = notes;
         this.taskStatus = taskStatus;
-        this.createdDate = createdDate;
         this.deadline = deadline;
         this.originProject = originProject;
     }
@@ -143,5 +134,48 @@ public class Task {
                 ", createdDate=" + createdDate +
                 ", deadline=" + deadline +
                 '}';
+    }
+
+    public static TaskBuilder builder(String taskTitle, Project originProject) {
+        return new TaskBuilder(taskTitle, originProject);
+    }
+
+    public static class TaskBuilder {
+        // Using builder to avoid telescopic constructors
+        private final String title;
+        private String description;
+        private String notes;
+        private TaskStatus taskStatus = TaskStatus.UNKOWN;
+        private LocalDate deadline;
+        private final Project originProject;
+
+        public TaskBuilder(String taskTitle, Project originProject) {
+            this.title = taskTitle;
+            this.originProject = originProject;
+        }
+
+        public TaskBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public TaskBuilder notes(String notes) {
+            this.notes = notes;
+            return this;
+        }
+
+        public TaskBuilder taskStatus(TaskStatus taskStatus) {
+            this.taskStatus = taskStatus;
+            return this;
+        }
+
+        public TaskBuilder deadline(LocalDate deadline) {
+            this.deadline = deadline;
+            return this;
+        }
+
+        public Task build() {
+            return new Task(this.title, this.description, this.notes, this.taskStatus, this.deadline, this.originProject);
+        }
     }
 }
