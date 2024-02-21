@@ -7,11 +7,12 @@ import com.project.planner.models.TaskStatus;
 import com.project.planner.repositories.ProjectRepository;
 import com.project.planner.repositories.TaskRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
+@Service
 public class TaskService {
-
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
 
