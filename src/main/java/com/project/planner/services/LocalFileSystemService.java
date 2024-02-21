@@ -106,6 +106,19 @@ public class LocalFileSystemService implements StorageService{
     }
 
     @Override
+    public Boolean exists(String filename) {
+        try {
+            Path file = loadFileByName(filename);
+            Resource resource = new UrlResource(file.toUri());
+
+            return resource.exists();
+            }
+        catch (MalformedURLException exception) {
+            return false;
+        }
+    }
+
+    @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(this.root.toFile());
     }
