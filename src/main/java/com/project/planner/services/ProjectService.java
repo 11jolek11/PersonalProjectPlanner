@@ -3,13 +3,11 @@ package com.project.planner.services;
 import com.project.planner.common.dto.LimitedProjectDTO;
 import com.project.planner.exceptions.EntityInstanceDoesNotExist;
 import com.project.planner.models.Project;
-import com.project.planner.models.Task;
-import com.project.planner.models.User;
 import com.project.planner.repositories.ProjectRepository;
 import jdk.jshell.spi.ExecutionControl;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.Set;
 
@@ -27,7 +25,7 @@ public class ProjectService {
         });
     }
 
-    // TODO(11jolek11): Not sure if it is good idea
+    // TODO(11jolek11): Not sure if it is a good idea
     public static LimitedProjectDTO mapEntityToDTO(Project project) {
         return new LimitedProjectDTO(project.getId(), project.getTitle(), project.getTasks().size());
     }
@@ -37,4 +35,8 @@ public class ProjectService {
         return new LimitedProjectDTO(project.getId(), project.getTitle(), project.getTasks().size());
     }
 
+    // TODO(11jolek11): Implement
+    public Set<FileSystemResource> getAllProjectFiles(Long projectId) throws ExecutionControl.NotImplementedException {
+        throw new ExecutionControl.NotImplementedException("Not implemented");
+    }
 }
