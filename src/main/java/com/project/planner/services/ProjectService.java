@@ -19,13 +19,30 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    private Project findProject(Long projectId) {
-        return this.projectRepository.findById(projectId).orElseThrow(() -> {
-            return new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND");
-        });
+    public Project findProject(Long projectId) {
+        return this.projectRepository.findById(projectId).orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND"));
     }
 
-    // TODO(11jolek11): Not sure if it is a good idea
+    public Boolean exists(Long projectId) {
+        return this.projectRepository.existsById(projectId);
+    }
+
+    public Project createProject(Project newProject) {
+        return this.projectRepository.save(newProject);
+    }
+
+    public void deleteProject(Long id) {
+        this.projectRepository.deleteById(id);
+    }
+
+    public Project updateExisitngProject(Long existingProjectId, Project project) {
+        if (this.exists(existingProjectId) && project.getId().equals(existingProjectId)) {
+            return this.projectRepository.save(project);
+        }
+
+        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND");
+    }
+
     public static LimitedProjectDTO mapEntityToDTO(Project project) {
         return new LimitedProjectDTO(project.getId(), project.getTitle(), project.getTasks().size());
     }
