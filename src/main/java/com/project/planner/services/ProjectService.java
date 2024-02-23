@@ -20,9 +20,7 @@ public class ProjectService {
     }
 
     public Project findProject(Long projectId) {
-        return this.projectRepository.findById(projectId).orElseThrow(() -> {
-            return new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND");
-        });
+        return this.projectRepository.findById(projectId).orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND"));
     }
 
     public Boolean exists(Long projectId) {
