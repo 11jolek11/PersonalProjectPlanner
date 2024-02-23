@@ -1,12 +1,10 @@
 package com.project.planner.controllers;
 
+import com.project.planner.common.dto.LimitedProjectDTO;
 import com.project.planner.models.Project;
-import com.project.planner.repositories.ProjectRepository;
 import com.project.planner.services.ProjectService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/projects/")
@@ -18,37 +16,41 @@ public class ProjectApiController {
     // https://medium.com/@ak123aryan/how-and-where-you-can-use-preauthorize-annotation-springboot-048751193b6f
     // https://stackoverflow.com/questions/56871229/spring-security-ownership-based-access
 
-    private ProjectService projectService;
-    private ProjectRepository projectRepository;
+    private final ProjectService projectService;
 
-    public ProjectApiController(ProjectService projectService, ProjectRepository projectRepository) {
+    public ProjectApiController(ProjectService projectService) {
         this.projectService = projectService;
-        this.projectRepository = projectRepository;
     }
 
     @PostMapping("/")
-    public Project createProject(@RequestBody Project project) {
-        return this.projectRepository.save(project);
+    public Project postCreateProject(@RequestBody Project project) {
+        return this.projectService.createProject(project);
     }
 
     @GetMapping("/{projectId}/")
-    public Project projectDetails(@PathVariable Long projectId) {
+    public Project getProjectDetails(@PathVariable Long projectId) {
+        return this.projectService.findProject(projectId);
+    }
 
+    @GetMapping("/{projectId}/limited")
+    public LimitedProjectDTO getProjectLimitedView(@PathVariable Long projectId) {
+        return this.projectService.mapEntityToDTO(projectId);
     }
 
     @DeleteMapping("/{projectId}/")
-    public Project projectDetails(@PathVariable Long projectId) {
-
+    public void deleteProjectDetails(@PathVariable Long projectId) {
+        this.projectService.deleteProject(projectId);
     }
 
     @PutMapping("/{projectId}/")
-    Project updateEntireProject(@RequestBody Project project) {
-
+    Project putUpdateEntireProject(@PathVariable Long projectId, @RequestBody Project project) {
+        return this.projectService.updateExisitngProject(projectId, project);
     }
 
-    @PatchMapping("/{projectId}/")
-    Project partialUpdateProject(@PathVariable Long projectId, @RequestBody Map<?, ?> patch) {
-
-    }
+    // TODO(11jolek11): Implement
+//    @PatchMapping("/{projectId}/")
+//    Project patchPartialUpdateProject(@PathVariable Long projectId, @RequestBody Map<?, ?> patch) {
+//
+//    }
 
 }
