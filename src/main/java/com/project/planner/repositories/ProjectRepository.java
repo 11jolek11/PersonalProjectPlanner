@@ -8,6 +8,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface ProjectRepository extends CrudRepository<Project, Long> {
-    Optional<Project> findProjectByMaintainer(User maintainer);
+    Set<Project> findProjectByMaintainer(User maintainer);
     Set<Project> findProjectsByTitle(String title);
 }
