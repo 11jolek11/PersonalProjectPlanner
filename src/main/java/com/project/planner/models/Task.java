@@ -26,7 +26,7 @@ public class Task {
     private TaskStatus taskStatus;
 
     @CreatedDate
-    private static LocalDate createdDate;
+    private LocalDate createdDate;
 
     private LocalDate deadline;
 

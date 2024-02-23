@@ -12,8 +12,8 @@ import java.util.Set;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
     Set<Task> findAllByTitle(String title);
-    List<Task> findAllByCreatedDateBefore(LocalDate localDate);
-    List<Task> findAllByCreatedDateAfter(LocalDate localDate);
+    List<Task> findAllByCreatedDateBefore(LocalDate createdDate);
+    List<Task> findAllByCreatedDateAfter(LocalDate createdDate);
     List<Task> findAllByTaskStatus(TaskStatus taskStatus);
-    Set<Task> findTasksByOriginProject(Project project);
+    Set<Task> findTasksByOriginProject(Project originProject);
 }
