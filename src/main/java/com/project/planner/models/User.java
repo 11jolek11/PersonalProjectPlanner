@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "_user")
@@ -20,9 +21,9 @@ public class User implements UserDetails {
     private String email;
     @JsonIgnore
     private String password;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
-    private Project project;
+    private Set<Project> projects;
 
     public User() {
     }

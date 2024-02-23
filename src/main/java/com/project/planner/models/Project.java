@@ -24,7 +24,7 @@ public class Project {
     @Lob
     private String notes;
 
-    @OneToOne(mappedBy = "project", optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User maintainer;
 
     public Project() {
