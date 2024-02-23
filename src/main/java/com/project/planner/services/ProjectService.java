@@ -19,7 +19,7 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    private Project findProject(Long projectId) {
+    public Project findProject(Long projectId) {
         return this.projectRepository.findById(projectId).orElseThrow(() -> {
             return new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND");
         });
