@@ -12,3 +12,5 @@
 https://www.baeldung.com/jpa-hibernate-associations
 
 https://www.baeldung.com/jpa-hibernate-associations
+
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev

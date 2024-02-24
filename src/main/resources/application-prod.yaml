@@ -1,3 +1,4 @@
+storageroot: "./storage/"
 server:
   port: 8080
 spring:
@@ -9,7 +10,7 @@ spring:
     web-application-type: servlet
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: "jdbc:postgresql://localhost:5432/mydatabase"
+    url: "jdbc:postgresql://localhost:5000/mydatabase"
     username: "myuser"
     password: "secret"
   jpa:

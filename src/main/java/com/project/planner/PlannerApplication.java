@@ -1,7 +1,7 @@
 package com.project.planner;
 
 import com.project.planner.configs.StorageConfig;
-import com.project.planner.services.StorageService;
+//import com.project.planner.services.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,11 +16,11 @@ public class PlannerApplication {
 		SpringApplication.run(PlannerApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner init(StorageService storageService) {
-		return (args) -> {
-			storageService.deleteAll();
-			storageService.initialize();
-		};
-	}
+//	@Bean
+//	CommandLineRunner init(StorageService storageService) {
+//		return (args) -> {
+//			storageService.deleteAll();
+//			storageService.initialize();
+//		};
+//	}
 }
