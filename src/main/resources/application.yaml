@@ -1,4 +1,7 @@
 storageroot: "./storage/"
+jwt:
+  token:
+    expiration-time: 60000
 server:
   port: 8080
 spring:
