@@ -3,7 +3,9 @@ package com.project.planner.common.mapper;
 import com.project.planner.common.requests.CreateFullTaskRequest;
 import com.project.planner.models.Task;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TaskMapper implements Mapper<Task, CreateFullTaskRequest>{
 
     ModelMapper mapper;
