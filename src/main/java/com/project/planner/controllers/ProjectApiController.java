@@ -5,6 +5,7 @@ import com.project.planner.common.mapper.ProjectMapper;
 import com.project.planner.common.requests.CreateFullProjectRequest;
 import com.project.planner.models.Project;
 import com.project.planner.services.ProjectService;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
