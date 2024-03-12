@@ -12,7 +12,7 @@
 	<artifactId>planner</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>planner</name>
-	<description>Personal proejct planner</description>
+	<description>Personal project planner</description>
 	<properties>
 		<java.version>21</java.version>
 	</properties>
@@ -60,12 +60,12 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-docker-compose</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-docker-compose</artifactId>-->
+<!--			<scope>runtime</scope>-->
+<!--			<optional>true</optional>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
