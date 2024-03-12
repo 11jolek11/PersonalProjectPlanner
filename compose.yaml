@@ -1,4 +1,17 @@
 services:
+  web:
+    env_file:
+      - .env
+    build: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - datasphere
+#    volumes:
+#      - dataspace
   postgres:
     image: 'postgres:latest'
     environment:
@@ -9,17 +22,17 @@ services:
       - '5000:5432'
     networks:
       - datasphere
-    volumes:
-      - dataspace:/db
+#    volumes:
+#      - dataspace
 
   redis:
     image: 'redis:latest'
     ports:
-      - '5001:6379'
+      - '6000:6379'
     networks:
       - datasphere
-    volumes:
-      - dataspace:/cache
+#    volumes:
+#      - dataspace
 
 volumes:
   dataspace:
