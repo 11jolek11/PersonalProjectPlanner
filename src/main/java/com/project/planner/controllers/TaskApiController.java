@@ -5,6 +5,7 @@ import com.project.planner.common.requests.CreateFullTaskRequest;
 import com.project.planner.models.Task;
 import com.project.planner.models.TaskStatus;
 import com.project.planner.services.TaskService;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,34 +30,34 @@ public class TaskApiController {
     }
 
     @PostMapping("/")
-    public Task createTask(@RequestBody CreateFullTaskRequest taskRequest) {
+    public Task createTask(Authentication authentication, @RequestBody CreateFullTaskRequest taskRequest) {
 
         return this.taskService.createTask(this.taskMapper.mapFrom(taskRequest));
     }
 
     @GetMapping("/{taskId}/")
-    public Task getTaskDetails(@PathVariable Long taskId) {
+    public Task getTaskDetails(Authentication authentication, @PathVariable Long taskId) {
         return this.taskService.findTask(taskId);
     }
 
     @DeleteMapping("/{taskId}/")
-    public void deleteTask(@PathVariable Long taskId) {
+    public void deleteTask(Authentication authentication, @PathVariable Long taskId) {
         this.taskService.deleteTask(taskId);
     }
 
     @PutMapping("/{taskId}/")
-    public Task putUpdateEntireTask(@PathVariable Long taskId, @RequestBody CreateFullTaskRequest taskRequest) {
+    public Task putUpdateEntireTask(Authentication authentication, @PathVariable Long taskId, @RequestBody CreateFullTaskRequest taskRequest) {
         return this.taskService.updateExistingTask(taskId, this.taskMapper.mapFrom(taskRequest));
     }
 
     @PatchMapping("/{taskId}/")
-    Task partialUpdateTask(@PathVariable Long taskId, @RequestBody CreateFullTaskRequest taskRequest) {
+    Task partialUpdateTask(Authentication authentication, @PathVariable Long taskId, @RequestBody CreateFullTaskRequest taskRequest) {
         // Update only fields of Task instance (identified by taskId) which are present
         return this.taskService.updateExistingTask(taskId, this.taskMapper.mapFrom(taskRequest));
     }
 
     @PatchMapping("/{taskId}/change_status")
-    public Task patchChangeTaskStatus(@PathVariable Long taskId, @RequestParam(name = "status") TaskStatus taskStatus) {
+    public Task patchChangeTaskStatus(Authentication authentication, @PathVariable Long taskId, @RequestParam(name = "status") TaskStatus taskStatus) {
         // Simplified alternative to PATCH partialUpdateTask with task status in json body
         // Rationale: Changing tasks status should be easy and quick for frontend devs
         return this.taskService.updateTaskStatus(taskId, taskStatus);
