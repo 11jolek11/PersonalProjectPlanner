@@ -1,5 +1,6 @@
 package com.project.planner.services;
 
+import com.project.planner.common.JWTFacade;
 import com.project.planner.exceptions.AuthException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -29,13 +30,21 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    private final JwtParser jwtParser = Jwts.parser()
-                                            .verifyWith(getSignInKey())
-                                            .build();
-    private final JwtBuilder jwtBuilder  = Jwts.builder();
+    private final JwtParser jwtParser;
+    private final JwtBuilder jwtBuilder;
 
     @Value("${jwt.token.expiration-time}")
     private Integer tokenExpirationTime;
+
+//    public JWTService(JwtParser jwtParser, JwtBuilder jwtBuilder) {
+//        this.jwtParser = jwtParser;
+//        this.jwtBuilder = jwtBuilder;
+//    }
+
+    public JWTService(JWTFacade jwtFacade) {
+        this.jwtParser = jwtFacade.createJWTParser(getSignInKey());
+        this.jwtBuilder = jwtFacade.getJwtBuilder();
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -95,12 +104,22 @@ public class JWTService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] secretString = Decoders.BASE64.decode(System.getenv("DEFAULT_SIGN_IN_SECRET_KEY"));
+        // FIXME(11jolek11): secretString is null (probably)
+        String decodeBase = System.getenv("DEFAULT_SIGN_IN_SECRET_KEY");
+        if (decodeBase == null) {
+            throw new RuntimeException("Bad decode base");
+        }
+        byte[] secretString = Decoders.BASE64.decode(decodeBase);
         return Keys.hmacShaKeyFor(secretString);
     }
 
     private SecretKey getEncryptionKey() {
-        byte[] secretString = Decoders.BASE64.decode(System.getenv("DEFAULT_ENCRYPT_SECRET_KEY"));
+        // FIXME(11jolek11): secretString is null (probably)
+        String decodeBase = System.getenv("DEFAULT_SIGN_IN_SECRET_KEY");
+        if (decodeBase == null) {
+            throw new RuntimeException("Bad decode base");
+        }
+        byte[] secretString = Decoders.BASE64.decode(decodeBase);
         return Keys.hmacShaKeyFor(secretString);
     }
 }
