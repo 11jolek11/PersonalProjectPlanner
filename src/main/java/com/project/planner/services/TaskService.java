@@ -8,6 +8,7 @@ import com.project.planner.models.TaskStatus;
 import com.project.planner.models.User;
 import com.project.planner.repositories.ProjectRepository;
 import com.project.planner.repositories.TaskRepository;
+import com.project.planner.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,13 @@ import java.util.stream.Stream;
 public class TaskService {
     private final TaskRepository taskRepository;
     private final ProjectRepository projectRepository;
+    private final UserRepository userRepository;
     private final AuthenticationFacade authentication;
 
-    public TaskService(TaskRepository taskRepository, ProjectRepository projectRepository, AuthenticationFacade authentication) {
+    public TaskService(TaskRepository taskRepository, ProjectRepository projectRepository, UserRepository userRepository, AuthenticationFacade authentication) {
         this.taskRepository = taskRepository;
         this.projectRepository = projectRepository;
+        this.userRepository = userRepository;
         this.authentication = authentication;
     }
 
@@ -33,23 +36,13 @@ public class TaskService {
         });
     }
 
-    public Set<Task> findTask(Project originProject) {
+    public Set<Task> findTasks(Project originProject) {
         return this.taskRepository.findTasksByOriginProject(originProject);
     }
 
-//    public Task findTaskByOwner(Long taskId) {
-            // TODO(11jolek11): Write u own query
-//        User targetUser = (User) authentication.getAuthentication();
-//        Set<Project> projectByMaintainer = this.projectRepository.findProjectByMaintainer(targetUser);
-//        for (Project project: projectByMaintainer) {
-//            if project.getTasks()
-//        }
-//        return null;
-//    }
-
-//    public Set<Task> findTaskByUserId(Long userId) {
-//
-//    }
+    public Set<Task> findTasks(User owner) {
+        return this.taskRepository.findTasksByOwner(owner);
+    }
 
     public Boolean exists(Long id) {
         return this.taskRepository.existsById(id);
