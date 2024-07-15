@@ -34,16 +34,21 @@ public class Task {
     @JoinColumn(name = "origin_project")
     private Project originProject;
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "owner")
+    private User owner;
+
     public Task() {
     }
 
-    public Task(String title, String description, String notes, TaskStatus taskStatus, LocalDate deadline, Project originProject) {
+    public Task(String title, String description, String notes, TaskStatus taskStatus, LocalDate deadline, Project originProject, User owner) {
         this.title = title;
         this.description = description;
         this.notes = notes;
         this.taskStatus = taskStatus;
         this.deadline = deadline;
         this.originProject = originProject;
+        this.owner = owner;
     }
 
     public Long getId() {
@@ -110,17 +115,25 @@ public class Task {
         this.deadline = deadline;
     }
 
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(notes, task.notes) && taskStatus == task.taskStatus && Objects.equals(createdDate, task.createdDate) && Objects.equals(deadline, task.deadline);
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(notes, task.notes) && taskStatus == task.taskStatus && Objects.equals(createdDate, task.createdDate) && Objects.equals(deadline, task.deadline) && Objects.equals(originProject, task.originProject) && Objects.equals(owner, task.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, notes, taskStatus, createdDate, deadline);
+        return Objects.hash(id, title, description, notes, taskStatus, createdDate, deadline, originProject, owner);
     }
 
     @Override
@@ -133,11 +146,13 @@ public class Task {
                 ", taskStatus=" + taskStatus +
                 ", createdDate=" + createdDate +
                 ", deadline=" + deadline +
+                ", originProject=" + originProject +
+                ", owner=" + owner +
                 '}';
     }
 
-    public static TaskBuilder builder(String taskTitle, Project originProject) {
-        return new TaskBuilder(taskTitle, originProject);
+    public static TaskBuilder builder(String taskTitle, Project originProject, User owner) {
+        return new TaskBuilder(taskTitle, originProject, owner);
     }
 
     public static class TaskBuilder {
@@ -148,10 +163,12 @@ public class Task {
         private TaskStatus taskStatus = TaskStatus.UNKOWN;
         private LocalDate deadline;
         private final Project originProject;
+        private final User owner;
 
-        public TaskBuilder(String taskTitle, Project originProject) {
+        public TaskBuilder(String taskTitle, Project originProject, User owner) {
             this.title = taskTitle;
             this.originProject = originProject;
+            this.owner = owner;
         }
 
         public TaskBuilder description(String description) {
@@ -175,7 +192,9 @@ public class Task {
         }
 
         public Task build() {
-            return new Task(this.title, this.description, this.notes, this.taskStatus, this.deadline, this.originProject);
+            return new Task(this.title, this.description,
+                    this.notes, this.taskStatus, this.deadline,
+                    this.originProject, this.owner);
         }
     }
 }

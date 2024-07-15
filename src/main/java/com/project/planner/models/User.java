@@ -24,6 +24,9 @@ public class User implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Set<Project> projects;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    private Set<Task> userTasks;
 
     public User() {
     }
@@ -59,6 +62,14 @@ public class User implements UserDetails {
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
+    }
+
+    public Set<Task> getUserTasks() {
+        return userTasks;
+    }
+
+    public void setUserTasks(Set<Task> userTasks) {
+        this.userTasks = userTasks;
     }
 
     @Override
