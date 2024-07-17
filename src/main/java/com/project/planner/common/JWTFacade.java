@@ -1,4 +1,4 @@
-package com.project.planner;
+package com.project.planner.common;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;

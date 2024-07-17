@@ -1,29 +1,16 @@
 package com.project.planner.services;
 
-import com.project.planner.common.JWTFacade;
+import com.project.planner.common.JWTFacadeImpl;
 import com.project.planner.exceptions.AuthException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Function;
 
@@ -41,9 +28,9 @@ public class JWTService {
 //        this.jwtBuilder = jwtBuilder;
 //    }
 
-    public JWTService(JWTFacade jwtFacade) {
-        this.jwtParser = jwtFacade.createJWTParser(getSignInKey());
-        this.jwtBuilder = jwtFacade.getJwtBuilder();
+    public JWTService(JWTFacadeImpl jwtFacadeImpl) {
+        this.jwtParser = jwtFacadeImpl.createJWTParser(getSignInKey());
+        this.jwtBuilder = jwtFacadeImpl.getJwtBuilder();
     }
 
     public String extractUsername(String token) {

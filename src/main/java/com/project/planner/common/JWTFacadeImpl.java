@@ -1,6 +1,5 @@
 package com.project.planner.common;
 
-import com.project.planner.IJWTFacade;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 
 @Component
-public class JWTFacade implements IJWTFacade {
+public class JWTFacadeImpl implements JWTFacade {
 
     @Override
     public JwtParser createJWTParser(SecretKey signInKey) {
