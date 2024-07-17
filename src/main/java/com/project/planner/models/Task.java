@@ -1,14 +1,17 @@
 package com.project.planner.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Task {
 
     @Id
@@ -19,7 +22,7 @@ public class Task {
     @NotEmpty
     private String title;
     private String description;
-    @Lob
+//    @Lob
     private String notes;
 
     @Enumerated(EnumType.STRING)
@@ -30,24 +33,36 @@ public class Task {
 
     private LocalDate deadline;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "origin_project")
-    private Project originProject;
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "origin_project")
+//    private Project originProject;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User owner;
 
     public Task() {
     }
 
-    public Task(String title, String description, String notes, TaskStatus taskStatus, LocalDate deadline, Project originProject, User owner) {
+    public Task(String title, String description, String notes, TaskStatus taskStatus, LocalDate deadline, /* Project originProject, */ User owner) {
         this.title = title;
         this.description = description;
         this.notes = notes;
         this.taskStatus = taskStatus;
         this.deadline = deadline;
-        this.originProject = originProject;
+//        this.originProject = originProject;
+        this.owner = owner;
+    }
+
+    public Task(Long id, String title, String description, String notes, TaskStatus taskStatus, LocalDate deadline, /* Project originProject, */ User owner) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.notes = notes;
+        this.taskStatus = taskStatus;
+        this.deadline = deadline;
+//        this.originProject = originProject;
         this.owner = owner;
     }
 
@@ -59,13 +74,13 @@ public class Task {
         this.id = id;
     }
 
-    public Project getOriginProject() {
-        return originProject;
-    }
-
-    public void setOriginProject(Project originProject) {
-        this.originProject = originProject;
-    }
+//    public Project getOriginProject() {
+//        return originProject;
+//    }
+//
+//    public void setOriginProject(Project originProject) {
+//        this.originProject = originProject;
+//    }
 
     public String getTitle() {
         return title;
@@ -128,12 +143,12 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(notes, task.notes) && taskStatus == task.taskStatus && Objects.equals(createdDate, task.createdDate) && Objects.equals(deadline, task.deadline) && Objects.equals(originProject, task.originProject) && Objects.equals(owner, task.owner);
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(notes, task.notes) && taskStatus == task.taskStatus && Objects.equals(createdDate, task.createdDate) && Objects.equals(deadline, task.deadline)/* && Objects.equals(originProject, task.originProject) */&& Objects.equals(owner, task.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, notes, taskStatus, createdDate, deadline, originProject, owner);
+        return Objects.hash(id, title, description, notes, taskStatus, createdDate, deadline, /*originProject, */ owner);
     }
 
     @Override
@@ -146,13 +161,13 @@ public class Task {
                 ", taskStatus=" + taskStatus +
                 ", createdDate=" + createdDate +
                 ", deadline=" + deadline +
-                ", originProject=" + originProject +
+//                ", originProject=" + originProject +
                 ", owner=" + owner +
                 '}';
     }
 
     public static TaskBuilder builder(String taskTitle, Project originProject, User owner) {
-        return new TaskBuilder(taskTitle, originProject, owner);
+        return new TaskBuilder(taskTitle, /*originProject,*/ owner);
     }
 
     public static class TaskBuilder {
@@ -162,12 +177,12 @@ public class Task {
         private String notes;
         private TaskStatus taskStatus = TaskStatus.UNKOWN;
         private LocalDate deadline;
-        private final Project originProject;
+//        private final Project originProject;
         private final User owner;
 
-        public TaskBuilder(String taskTitle, Project originProject, User owner) {
+        public TaskBuilder(String taskTitle, /*Project originProject,*/ User owner) {
             this.title = taskTitle;
-            this.originProject = originProject;
+//            this.originProject = originProject;
             this.owner = owner;
         }
 
@@ -194,7 +209,7 @@ public class Task {
         public Task build() {
             return new Task(this.title, this.description,
                     this.notes, this.taskStatus, this.deadline,
-                    this.originProject, this.owner);
+                    /*this.originProject, */ this.owner);
         }
     }
 }

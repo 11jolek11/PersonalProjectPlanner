@@ -18,6 +18,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findAllByCreatedDateBefore(LocalDate createdDate);
     List<Task> findAllByCreatedDateAfter(LocalDate createdDate);
     List<Task> findAllByTaskStatus(TaskStatus taskStatus);
-    Set<Task> findTasksByOriginProject(Project originProject);
     Set<Task> findTasksByOwner(User owner);
 }

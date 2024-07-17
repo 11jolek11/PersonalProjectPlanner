@@ -1,5 +1,6 @@
 package com.project.planner.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,11 +16,12 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "projectIdGen")
     private Long id;
 
-    @NotBlank
+//    @NotBlank
     private String title;
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "originProject")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL/*, mappedBy = "originProject"*/)
+    @JoinColumn(name = "task_id")
     private Set<Task> tasks;
     @Lob
     private String notes;
@@ -38,8 +40,21 @@ public class Project {
         this.notes = notes;
     }
 
+    public Project(Long id, User maintainer, String title, String description, Set<Task> tasks, String notes) {
+        this.id = id;
+        this.maintainer = maintainer;
+        this.title = title;
+        this.description = description;
+        this.tasks = tasks;
+        this.notes = notes;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getMaintainer() {
