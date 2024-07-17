@@ -1,18 +1,19 @@
 package com.project.planner.controllers;
 
+import com.project.planner.common.dto.TaskDTO;
 import com.project.planner.common.mapper.TaskMapper;
-import com.project.planner.common.requests.CreateFullTaskRequest;
 import com.project.planner.models.Task;
 import com.project.planner.models.TaskStatus;
 import com.project.planner.services.TaskService;
-import org.springframework.security.core.Authentication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/tasks/")
+@RequestMapping("/api/v1/tasks")
 @Validated
 public class TaskApiController {
     // TODO(11jolek11): Add resource ownership check <-- security context to get user ID
@@ -29,37 +30,40 @@ public class TaskApiController {
         this.taskMapper = taskMapper;
     }
 
-    @PostMapping("/")
-    public Task createTask(Authentication authentication, @RequestBody CreateFullTaskRequest taskRequest) {
+    @PostMapping("")
+    public TaskDTO createTask(@RequestBody TaskDTO taskRequest) {
 
-        return this.taskService.createTask(this.taskMapper.mapFrom(taskRequest));
+        Task newTask = this.taskService.createTask(this.taskMapper.mapFrom(taskRequest));
+        return this.taskMapper.mapTo(newTask);
     }
 
-    @GetMapping("/{taskId}/")
-    public Task getTaskDetails(Authentication authentication, @PathVariable Long taskId) {
-        return this.taskService.findTask(taskId);
+    @GetMapping("/{taskId}")
+    public TaskDTO getTaskDetails(@PathVariable Long taskId) {
+        return this.taskMapper.mapTo(this.taskService.findTask(taskId));
     }
 
-    @DeleteMapping("/{taskId}/")
-    public void deleteTask(Authentication authentication, @PathVariable Long taskId) {
+    @DeleteMapping("/{taskId}")
+    public void deleteTask(@PathVariable Long taskId) {
         this.taskService.deleteTask(taskId);
     }
 
-    @PutMapping("/{taskId}/")
-    public Task putUpdateEntireTask(Authentication authentication, @PathVariable Long taskId, @RequestBody CreateFullTaskRequest taskRequest) {
-        return this.taskService.updateExistingTask(taskId, this.taskMapper.mapFrom(taskRequest));
-    }
-
-    @PatchMapping("/{taskId}/")
-    Task partialUpdateTask(Authentication authentication, @PathVariable Long taskId, @RequestBody CreateFullTaskRequest taskRequest) {
-        // Update only fields of Task instance (identified by taskId) which are present
-        return this.taskService.updateExistingTask(taskId, this.taskMapper.mapFrom(taskRequest));
-    }
-
-    @PatchMapping("/{taskId}/change_status")
-    public Task patchChangeTaskStatus(Authentication authentication, @PathVariable Long taskId, @RequestParam(name = "status") TaskStatus taskStatus) {
+//    @PutMapping("/{taskId}")
+//    public TaskDTO updateEntireTask(@PathVariable Long taskId, @RequestBody TaskDTO taskRequest) {
+//        return this.taskMapper.mapTo(this.taskService.updateExistingTask(taskId, this.taskMapper.mapFrom(taskRequest)));
+//    }
+//    @PatchMapping("/{taskId}")
+//    public TaskDTO partialUpdateTask(@PathVariable Long taskId, @RequestBody TaskDTO taskRequest) {
+//        // Update only fields of Task instance (identified by taskId) which are present
+//        return this.taskMapper.mapTo(this.taskService.updateExistingTask(taskId, this.taskMapper.mapFrom(taskRequest)));
+//    }
+//
+    @PatchMapping("/{taskId}/status")
+    public ResponseEntity<Map<Long, String>> changeTaskStatus(@PathVariable Long taskId, @RequestParam(name = "status") TaskStatus taskStatus) {
         // Simplified alternative to PATCH partialUpdateTask with task status in json body
         // Rationale: Changing tasks status should be easy and quick for frontend devs
-        return this.taskService.updateTaskStatus(taskId, taskStatus);
+//        Map<Long, String> map = new HashMap<Long, String>();
+//        .put(taskId, this.taskService.updateTaskStatus(taskId, taskStatus).name())
+        Map<Long, String> map = Map.of(taskId, this.taskService.updateTaskStatus(taskId, taskStatus).name());
+        return ResponseEntity.ok(map);
     }
 }
