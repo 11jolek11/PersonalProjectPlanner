@@ -18,4 +18,4 @@ COPY --from=build /app/target/planner-0.0.1-SNAPSHOT.jar .
 
 EXPOSE 3000
 
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=dev", "planner-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005", "-jar", "-Dspring.profiles.active=dev", "planner-0.0.1-SNAPSHOT.jar"]

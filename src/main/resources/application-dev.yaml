@@ -20,9 +20,14 @@ spring:
     database-platform: "org.hibernate.dialect.PostgreSQLDialect"
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
-        use_sql_comments: true
+        show_sql: false
+        use_sql_comments: false
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    root: warn
+    com.project.planner: trace
