@@ -66,16 +66,15 @@ public class ProjectApiController {
     @DeleteMapping("/{projectId}")
     public ResponseEntity<Map<String, String>> deleteProject(@PathVariable Long projectId) {
         this.projectService.deleteProject(projectId);
-
         return ResponseEntity.ok(Map.of("status", "deleted"));
     }
-//    @PutMapping("/{projectId}")
-//    Project updateEntireProject(@PathVariable Long projectId, @RequestBody ProjectDTO projectRequest) {
-//        return this.projectService.updateExisitngProject(projectId, this.projectMapper.mapFrom(projectRequest));
-//    }
-//    @PatchMapping("/{projectId}")
-//    Project partialUpdateProject(@PathVariable Long projectId, @RequestBody ProjectDTO projectRequest) {
-//        // Update only fields of Project instance (identified by projectId) which are present
-//        return this.projectService.updateExisitngProject(projectId, this.projectMapper.mapFrom(projectRequest));
-//    }
+    @PutMapping("/{projectId}")
+    ProjectDTO updateEntireProject(@PathVariable Long projectId, @RequestBody ProjectDTO projectRequest) {
+        return this.projectService.replaceExistingProject(projectId, projectRequest);
+    }
+    @PatchMapping("/{projectId}")
+    ProjectDTO partialUpdateProject(@PathVariable Long projectId, @RequestBody ProjectDTO projectRequest) {
+        // Update only fields of Project instance (identified by projectId) which are present
+        return this.projectService.updateExistingProject(projectId, projectRequest);
+    }
 }

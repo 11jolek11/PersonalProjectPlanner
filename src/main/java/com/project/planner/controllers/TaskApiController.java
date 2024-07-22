@@ -5,6 +5,8 @@ import com.project.planner.common.mapper.TaskMapper;
 import com.project.planner.models.Task;
 import com.project.planner.models.TaskStatus;
 import com.project.planner.services.TaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/tasks")
 @Validated
 public class TaskApiController {
+    private static final Logger log = LoggerFactory.getLogger(TaskApiController.class);
     // TODO(11jolek11): Add resource ownership check <-- security context to get user ID
 
     // For future me: Don't use following links
@@ -43,26 +46,23 @@ public class TaskApiController {
     }
 
     @DeleteMapping("/{taskId}")
-    public void deleteTask(@PathVariable Long taskId) {
+    public ResponseEntity<Map<String, String>> deleteTask(@PathVariable Long taskId) {
         this.taskService.deleteTask(taskId);
+        return ResponseEntity.ok(Map.of("status", "deleted"));
     }
 
-//    @PutMapping("/{taskId}")
-//    public TaskDTO updateEntireTask(@PathVariable Long taskId, @RequestBody TaskDTO taskRequest) {
-//        return this.taskMapper.mapTo(this.taskService.updateExistingTask(taskId, this.taskMapper.mapFrom(taskRequest)));
-//    }
-//    @PatchMapping("/{taskId}")
-//    public TaskDTO partialUpdateTask(@PathVariable Long taskId, @RequestBody TaskDTO taskRequest) {
-//        // Update only fields of Task instance (identified by taskId) which are present
-//        return this.taskMapper.mapTo(this.taskService.updateExistingTask(taskId, this.taskMapper.mapFrom(taskRequest)));
-//    }
-//
+    @PutMapping("/{taskId}")
+    public TaskDTO updateEntireTask(@PathVariable Long taskId, @RequestBody TaskDTO dto) {
+        return this.taskService.replaceExistingTask(taskId, dto);
+    }
+    @PatchMapping("/{taskId}")
+    public TaskDTO partialUpdateTask(@PathVariable Long taskId, @RequestBody TaskDTO dto) {
+        // Update only fields of Task instance (identified by taskId) which are present
+        return this.taskService.updateExistingTask(taskId, dto);
+    }
+
     @PatchMapping("/{taskId}/status")
     public ResponseEntity<Map<Long, String>> changeTaskStatus(@PathVariable Long taskId, @RequestParam(name = "status") TaskStatus taskStatus) {
-        // Simplified alternative to PATCH partialUpdateTask with task status in json body
-        // Rationale: Changing tasks status should be easy and quick for frontend devs
-//        Map<Long, String> map = new HashMap<Long, String>();
-//        .put(taskId, this.taskService.updateTaskStatus(taskId, taskStatus).name())
         Map<Long, String> map = Map.of(taskId, this.taskService.updateTaskStatus(taskId, taskStatus).name());
         return ResponseEntity.ok(map);
     }

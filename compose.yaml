@@ -5,6 +5,7 @@ services:
     build: .
     ports:
       - "3000:3000"
+      - "5005:5005"
     depends_on:
       - postgres
       - redis
