@@ -13,10 +13,5 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    Set<Task> findAllByTitle(String title);
-//    Set<Task> findAllByOriginProject(Project originProject);
-    List<Task> findAllByCreatedDateBefore(LocalDate createdDate);
-    List<Task> findAllByCreatedDateAfter(LocalDate createdDate);
-    List<Task> findAllByTaskStatus(TaskStatus taskStatus);
     Set<Task> findTasksByOwner(User owner);
 }
