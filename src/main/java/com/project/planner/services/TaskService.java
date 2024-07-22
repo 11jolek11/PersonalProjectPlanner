@@ -13,8 +13,8 @@ import com.project.planner.repositories.TaskRepository;
 import com.project.planner.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 import java.util.Set;
 

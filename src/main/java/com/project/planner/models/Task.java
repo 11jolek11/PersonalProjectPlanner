@@ -33,6 +33,10 @@ public class Task {
 
     private LocalDate deadline;
 
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "origin_project")
+//    private Project originProject;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -57,6 +61,7 @@ public class Task {
         this.notes = notes;
         this.taskStatus = taskStatus;
         this.deadline = deadline;
+
         this.owner = owner;
     }
 

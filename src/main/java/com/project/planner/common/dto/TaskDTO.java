@@ -12,9 +12,7 @@ public class TaskDTO {
     TaskStatus taskStatus;
     String deadline;
     LocalDate createdDate;
-//    Long originProjectId;
     Long ownerId;
-//    String ownerEmail;
 
     public TaskDTO() {
     }

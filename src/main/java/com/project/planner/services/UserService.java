@@ -47,7 +47,6 @@ public class UserService {
             // TODO(11jolek11): Find better way to handle this type of event
             throw new UserAlreadyExistsException(HttpStatus.BAD_REQUEST, "User already exists, try to login");
         } else {
-            System.out.println("Trying to register new User with { email: " + newUser.getUsername() + ", password: " + newUser.getPassword());
             return this.userRepository.save(newUser);
         }
     }
