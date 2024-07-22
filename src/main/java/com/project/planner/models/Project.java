@@ -27,6 +27,7 @@ public class Project {
     private String notes;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
     private User maintainer;
 
     public Project() {

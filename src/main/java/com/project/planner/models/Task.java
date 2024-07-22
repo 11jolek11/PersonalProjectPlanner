@@ -33,10 +33,6 @@ public class Task {
 
     private LocalDate deadline;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "origin_project")
-//    private Project originProject;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "owner")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -51,7 +47,6 @@ public class Task {
         this.notes = notes;
         this.taskStatus = taskStatus;
         this.deadline = deadline;
-//        this.originProject = originProject;
         this.owner = owner;
     }
 
@@ -62,7 +57,6 @@ public class Task {
         this.notes = notes;
         this.taskStatus = taskStatus;
         this.deadline = deadline;
-//        this.originProject = originProject;
         this.owner = owner;
     }
 
@@ -73,14 +67,6 @@ public class Task {
     public void setId(Long id) {
         this.id = id;
     }
-
-//    public Project getOriginProject() {
-//        return originProject;
-//    }
-//
-//    public void setOriginProject(Project originProject) {
-//        this.originProject = originProject;
-//    }
 
     public String getTitle() {
         return title;
@@ -143,12 +129,12 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(notes, task.notes) && taskStatus == task.taskStatus && Objects.equals(createdDate, task.createdDate) && Objects.equals(deadline, task.deadline)/* && Objects.equals(originProject, task.originProject) */&& Objects.equals(owner, task.owner);
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(notes, task.notes) && taskStatus == task.taskStatus && Objects.equals(createdDate, task.createdDate) && Objects.equals(deadline, task.deadline) && Objects.equals(owner, task.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, notes, taskStatus, createdDate, deadline, /*originProject, */ owner);
+        return Objects.hash(id, title, description, notes, taskStatus, createdDate, deadline, owner);
     }
 
     @Override
@@ -161,13 +147,12 @@ public class Task {
                 ", taskStatus=" + taskStatus +
                 ", createdDate=" + createdDate +
                 ", deadline=" + deadline +
-//                ", originProject=" + originProject +
                 ", owner=" + owner +
                 '}';
     }
 
-    public static TaskBuilder builder(String taskTitle, Project originProject, User owner) {
-        return new TaskBuilder(taskTitle, /*originProject,*/ owner);
+    public static TaskBuilder builder(String taskTitle, User owner) {
+        return new TaskBuilder(taskTitle, owner);
     }
 
     public static class TaskBuilder {
@@ -209,7 +194,7 @@ public class Task {
         public Task build() {
             return new Task(this.title, this.description,
                     this.notes, this.taskStatus, this.deadline,
-                    /*this.originProject, */ this.owner);
+                    this.owner);
         }
     }
 }

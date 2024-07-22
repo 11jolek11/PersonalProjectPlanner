@@ -25,7 +25,7 @@ public class User implements UserDetails {
 //    @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Set<Project> projects;
     @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Set<Task> userTasks;
 
     public User() {
