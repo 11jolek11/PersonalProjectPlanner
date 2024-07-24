@@ -28,9 +28,14 @@ public class JWTService {
 //        this.jwtBuilder = jwtBuilder;
 //    }
 
-    public JWTService(JWTFacadeImpl jwtFacadeImpl) {
-        this.jwtParser = jwtFacadeImpl.createJWTParser(getSignInKey());
-        this.jwtBuilder = jwtFacadeImpl.getJwtBuilder();
+//    public JWTService(JWTFacadeImpl jwtFacadeImpl) {
+//        this.jwtParser = jwtFacadeImpl.createJWTParser(getSignInKey());
+//        this.jwtBuilder = jwtFacadeImpl.getJwtBuilder();
+//    }
+
+    public JWTService(JwtParser jwtParser, JwtBuilder jwtBuilder) {
+        this.jwtParser = jwtParser;
+        this.jwtBuilder = jwtBuilder;
     }
 
     public String extractUsername(String token) {
