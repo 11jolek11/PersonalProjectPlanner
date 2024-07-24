@@ -4,10 +4,5 @@
       "name": "jwt.token.expiration-time",
       "type": "java.lang.String",
       "description": "Duration of JWT token expiration time."
-    },
-    {
-      "name": "storageroot",
-      "type": "java.lang.String",
-      "description": "Local file system storage path"
     }
   ] }
