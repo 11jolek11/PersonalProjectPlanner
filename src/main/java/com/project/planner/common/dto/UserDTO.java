@@ -1,14 +1,8 @@
 package com.project.planner.common.dto;
 
-import com.project.planner.models.Project;
-import com.project.planner.models.Task;
-
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
-//public record UserDTO(String email, Set<LimitedProjectDTO> projects, Set<TaskDTO> userTasks) {
-//}
 
 public class UserDTO {
     String email;

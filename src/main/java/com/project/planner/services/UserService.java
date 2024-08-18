@@ -21,6 +21,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final TaskMapper taskMapper;
+    private static final String USER_NOT_FOUND_MESSAGE = "User not found";
 
     public UserService(UserRepository userRepository, TaskMapper taskMapper) {
         this.userRepository = userRepository;
@@ -38,7 +39,7 @@ public class UserService {
     public User getUser(String email) {
 
         return this.userRepository.findUserByEmail(email).orElseThrow(
-                () -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND")
+                () -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE)
         );
     }
 
@@ -52,20 +53,20 @@ public class UserService {
     }
 
     public Boolean checkIfUserHaveFullRights(Long id) {
-        User targetUser = this.userRepository.findById(id).orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND"));
+        User targetUser = this.userRepository.findById(id).orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE));
 
         return targetUser.isEnabled() && targetUser.isAccountNonLocked();
     }
 
     public Boolean checkIfUserHaveFullRights(String email) {
-        User targetUser = this.userRepository.findUserByEmail(email).orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND"));
+        User targetUser = this.userRepository.findUserByEmail(email).orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE));
 
         return targetUser.isEnabled() && targetUser.isAccountNonLocked();
     }
 
     public Set<TaskDTO> getUsersTasks(Long id) {
         User user = this.userRepository.findById(id).orElseThrow(
-                () -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND")
+                () -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE)
         );
 
         return user.getUserTasks().stream().map(this.taskMapper::mapTo).collect(Collectors.toSet());
@@ -73,7 +74,7 @@ public class UserService {
 
     public Set<Project> getUsersProjects(Long id) {
         User user = this.userRepository.findById(id).orElseThrow(
-                () -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND")
+                () -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE)
         );
 
         return user.getProjects();

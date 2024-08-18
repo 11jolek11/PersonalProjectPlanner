@@ -23,16 +23,6 @@ public class JWTService {
     @Value("${jwt.token.expiration-time}")
     private Integer tokenExpirationTime;
 
-//    public JWTService(JwtParser jwtParser, JwtBuilder jwtBuilder) {
-//        this.jwtParser = jwtParser;
-//        this.jwtBuilder = jwtBuilder;
-//    }
-
-//    public JWTService(JWTFacadeImpl jwtFacadeImpl) {
-//        this.jwtParser = jwtFacadeImpl.createJWTParser(getSignInKey());
-//        this.jwtBuilder = jwtFacadeImpl.getJwtBuilder();
-//    }
-
     public JWTService(JwtParser jwtParser, JwtBuilder jwtBuilder) {
         this.jwtParser = jwtParser;
         this.jwtBuilder = jwtBuilder;
@@ -95,9 +85,7 @@ public class JWTService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private SecretKey getSignInKey() {
-        // FIXME(11jolek11): secretString is null (probably)
-        String decodeBase = System.getenv("DEFAULT_SIGN_IN_SECRET_KEY");
+    private SecretKey getKeyFromDecodeBase(String decodeBase) {
         if (decodeBase == null) {
             throw new RuntimeException("Bad decode base");
         }
@@ -105,13 +93,13 @@ public class JWTService {
         return Keys.hmacShaKeyFor(secretString);
     }
 
-    private SecretKey getEncryptionKey() {
-        // FIXME(11jolek11): secretString is null (probably)
+    private SecretKey getSignInKey() {
         String decodeBase = System.getenv("DEFAULT_SIGN_IN_SECRET_KEY");
-        if (decodeBase == null) {
-            throw new RuntimeException("Bad decode base");
-        }
-        byte[] secretString = Decoders.BASE64.decode(decodeBase);
-        return Keys.hmacShaKeyFor(secretString);
+        return getKeyFromDecodeBase(decodeBase);
+    }
+
+    private SecretKey getEncryptionKey() {
+        String decodeBase = System.getenv("DEFAULT_ENCRYPTION_SECRET_KEY");
+        return getKeyFromDecodeBase(decodeBase);
     }
 }

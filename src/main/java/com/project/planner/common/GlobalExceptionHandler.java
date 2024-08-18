@@ -16,16 +16,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(StorageException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ErrorResponse> handle_StorageException(
+    public ResponseEntity<ErrorResponse> handleStorageException(
             StorageException exception,
             WebRequest request
     ) {
-        ErrorResponse err_response = ErrorResponse
+        ErrorResponse errorResponse = ErrorResponse
                 .builder()
                 .setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .setMessage(exception.getMessage())
                 .build();
 
-        return ResponseEntity.status(err_response.getStatusCode()).body(err_response);
+        return ResponseEntity.status(errorResponse.getStatusCode()).body(errorResponse);
     }
 }

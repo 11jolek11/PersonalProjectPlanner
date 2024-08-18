@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    // TODO(11jolek11): Add cookies handling
-    // see: https://reflectoring.io/spring-boot-cookies/
     private final AuthService authService;
 
     public AuthController(AuthService authService) {

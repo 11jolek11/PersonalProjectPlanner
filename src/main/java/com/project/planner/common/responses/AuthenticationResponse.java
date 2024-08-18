@@ -1,7 +1,6 @@
 package com.project.planner.common.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.Objects;
 

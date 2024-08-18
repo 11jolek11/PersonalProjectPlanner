@@ -30,15 +30,12 @@ public class AuthService {
     public AuthenticationResponse register(AuthenticationRequest registerRequest) {
         User newUser = new User(registerRequest.getEmail(), this.passwordEncoder.encode(registerRequest.getPassword()));
 
-        User registeredUser = this.userService.registerNewUser(newUser);
-
-        System.out.println("New User registered!");
-        System.out.println(registeredUser.toString());
+        User registeredNewUser = this.userService.registerNewUser(newUser);
 
         this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        registerRequest.getEmail(),
-                        registerRequest.getPassword()
+                        registeredNewUser.getEmail(),
+                        registeredNewUser.getPassword()
                 )
         );
 

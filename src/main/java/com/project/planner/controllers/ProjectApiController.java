@@ -41,13 +41,12 @@ public class ProjectApiController {
     @GetMapping("")
     public Set<ProjectDTO> getAllProjects() {
         return this.projectService.findAllUserProjects().stream()
-                .map((element) -> modelMapper.map(element, ProjectDTO.class))
+                .map(element -> modelMapper.map(element, ProjectDTO.class))
                 .collect(Collectors.toSet());
     }
 
     @PostMapping("")
     public ProjectDTO createProject(@RequestBody ProjectDTO projectRequest) {
-        System.out.println("POST CREATE PROJECT");
         Project newProject =  this.projectService.createProject(this.projectMapper.mapFrom(projectRequest));
         return this.projectMapper.mapTo(newProject);
     }

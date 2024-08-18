@@ -24,6 +24,7 @@ public class ProjectService {
     private final AuthenticationFacadeImpl authentication;
     private final TaskService taskService;
     private final ProjectMapper projectMapper;
+    private static final String USER_NOT_FOUND_MESSAGE = "User not found";
 
     public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, AuthenticationFacadeImpl authentication, TaskService taskService, ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
@@ -34,7 +35,7 @@ public class ProjectService {
     }
 
     public Project findProject(Long projectId) {
-        return this.projectRepository.findById(projectId).orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND"));
+        return this.projectRepository.findById(projectId).orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE));
     }
 
     public Set<Project> findAllUserProjects(User user) {
@@ -43,14 +44,14 @@ public class ProjectService {
 
     public Set<Project> findAllUserProjects(String username) {
         User maintainer = this.userRepository.findUserByEmail(username).orElseThrow(
-                () -> new ResourceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND")
+                () -> new ResourceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE)
         );
         return this.projectRepository.findProjectByMaintainer(maintainer);
     }
 
     public Set<Project> findAllUserProjects() {
         User maintainer = this.userRepository.findUserByEmail(authentication.getAuthentication().getName()).orElseThrow(
-                () -> new ResourceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND")
+                () -> new ResourceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE)
         );
         return this.projectRepository.findProjectByMaintainer(maintainer);
     }
@@ -62,8 +63,7 @@ public class ProjectService {
     @Transactional
     public Project createProject(Project newProject) {
         User maintainer = this.userRepository.findUserByEmail(authentication.getAuthentication().getName())
-                .orElseThrow(() -> { return new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User not found"); });
-        System.out.println(maintainer.toString());
+                .orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE));
         newProject.setMaintainer(maintainer);
         Task[] tempTasks = new Task[0];
         tempTasks = newProject.getTasks().toArray(tempTasks);
@@ -89,7 +89,7 @@ public class ProjectService {
     @Transactional
     public void deleteProject(Long id) {
         Project project = this.projectRepository.findById(id).orElseThrow(
-                () -> { return new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "Project not found"); }
+                () -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "Project not found")
         );
         User maintainer = project.getMaintainer();
         Set<Project> projects = maintainer.getProjects();
@@ -107,20 +107,20 @@ public class ProjectService {
             return this.projectMapper.mapTo(this.projectRepository.save(oldProject));
         }
 
-        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND");
+        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE);
     }
     @Transactional
     public ProjectDTO replaceExistingProject(Long existingProjectId, ProjectDTO projectDTO) {
         Optional<Project> oldProjectOptional = this.projectRepository.findById(existingProjectId);
         if (oldProjectOptional.isPresent()) {
-            User maintainer = this.userRepository.findUserByEmail(authentication.getAuthentication().getName())
-                    .orElseThrow(() -> { return new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User not found"); });
+            this.userRepository.findUserByEmail(authentication.getAuthentication().getName())
+                    .orElseThrow(() -> new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE));
 
             Project oldProject = oldProjectOptional.get();
             this.projectMapper.update(projectDTO, oldProject);
             return this.projectMapper.mapTo(this.projectRepository.save(oldProject));
         }
 
-        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "User NOT FOUND");
+        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, USER_NOT_FOUND_MESSAGE);
     }
 }

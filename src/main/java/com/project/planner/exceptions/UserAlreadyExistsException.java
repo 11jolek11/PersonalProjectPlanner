@@ -2,7 +2,6 @@ package com.project.planner.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
-//import org.springframework.http.HttpStatusCode;
 
 public class UserAlreadyExistsException extends ResponseStatusException {
     public UserAlreadyExistsException(HttpStatus status) {

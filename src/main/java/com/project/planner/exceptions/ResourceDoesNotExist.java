@@ -3,8 +3,6 @@ package com.project.planner.exceptions;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.io.FileNotFoundException;
-
 public class ResourceDoesNotExist extends ResponseStatusException {
     public ResourceDoesNotExist(HttpStatusCode status) {
         super(status);

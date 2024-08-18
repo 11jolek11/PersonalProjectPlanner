@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/api/v1/tasks")
 @Validated
 public class TaskApiController {
-    private static final Logger log = LoggerFactory.getLogger(TaskApiController.class);
     // TODO(11jolek11): Add resource ownership check <-- security context to get user ID
 
     // For future me: Don't use following links

@@ -15,7 +15,6 @@ public class ProjectMapper implements Mapper<Project, ProjectDTO> {
 
     public ProjectMapper(ModelMapper mapper) {
         this.mapper = mapper;
-//        this.mapper.getConfiguration().setSkipNullEnabled(true);
     }
 
     @Override

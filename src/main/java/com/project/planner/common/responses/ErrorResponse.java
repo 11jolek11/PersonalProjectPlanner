@@ -68,8 +68,6 @@ public class ErrorResponse  {
         private int statusCode;
         private String message;
         private String stackTrace;
-        public ErrorResponseBuilder() {
-        }
 
         public ErrorResponseBuilder setStatusCode(int statusCode) {
             this.statusCode = statusCode;
@@ -88,10 +86,5 @@ public class ErrorResponse  {
         public ErrorResponse build() {
             return new ErrorResponse(this.statusCode, this.message, this.stackTrace);
         }
-
-
     }
-
-
-
 }

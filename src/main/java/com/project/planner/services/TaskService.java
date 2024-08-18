@@ -25,6 +25,7 @@ public class TaskService {
     private final UserRepository userRepository;
     private final AuthenticationFacadeImpl authentication;
     private final TaskMapper taskMapper;
+    private static final String taskNotFoundMessage = "Task not found";
 
     public TaskService(TaskRepository taskRepository, UserRepository userRepository, AuthenticationFacadeImpl authentication, TaskMapper taskMapper) {
         this.taskRepository = taskRepository;
@@ -34,9 +35,8 @@ public class TaskService {
     }
 
     public Task findTask(Long taskId) {
-        return this.taskRepository.findById(taskId).orElseThrow(() -> {
-            return new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "Task NOT FOUND");
-        });
+        return this.taskRepository.findById(taskId).orElseThrow(() ->
+                new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, taskNotFoundMessage));
     }
 
     public Set<Task> findTasks(User owner) {
@@ -50,9 +50,8 @@ public class TaskService {
     public Task createTask(Task newTask) {
         String creatorEmail = authentication.getAuthentication().getName();
         User creator = this.userRepository.findUserByEmail(creatorEmail)
-                .orElseThrow(() -> { return new ResourceDoesNotExist(HttpStatus.NOT_FOUND, "User not found"); });
+                .orElseThrow(() -> new ResourceDoesNotExist(HttpStatus.NOT_FOUND, "User not found"));
         newTask.setOwner(creator);
-        System.out.println("Task created by: ".concat(creatorEmail));
         newTask = this.taskRepository.save(newTask);
         creator.getUserTasks().add(newTask);
         this.userRepository.save(creator);
@@ -72,7 +71,7 @@ public class TaskService {
             return this.taskMapper.mapTo(this.taskRepository.save(oldTask));
         }
 
-        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "Task NOT FOUND");
+        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, taskNotFoundMessage);
     }
 
     public TaskStatus updateTaskStatus(Long taskId, TaskStatus newTaskStatus) {
@@ -90,7 +89,7 @@ public class TaskService {
             return this.taskMapper.mapTo(this.taskRepository.save(oldTask));
         }
 
-        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "Task NOT FOUND");
+        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, taskNotFoundMessage);
     }
 
     @Transactional
@@ -102,6 +101,6 @@ public class TaskService {
             return this.taskMapper.mapTo(this.taskRepository.save(newTask));
         }
 
-        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, "Task NOT FOUND");
+        throw new EntityInstanceDoesNotExist(HttpStatus.NOT_FOUND, taskNotFoundMessage);
     }
 }

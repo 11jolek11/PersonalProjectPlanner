@@ -28,10 +28,9 @@ public class ApplicationConfig {
     public UserDetailsService userDetailsService() {
         return username -> this.userRepository.findUserByEmail(username)
                 .orElseThrow(
-                        () -> {
-                            return new ResourceDoesNotExist(HttpStatus.UNAUTHORIZED,
-                                    "User with provided credentials not found");
-                        }
+                        () -> new ResourceDoesNotExist(HttpStatus.UNAUTHORIZED,
+                                    "User with provided credentials not found")
+
                 );
     }
 

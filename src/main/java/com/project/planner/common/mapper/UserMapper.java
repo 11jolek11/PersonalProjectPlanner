@@ -12,7 +12,6 @@ public class UserMapper implements Mapper<User, UserDTO>{
 
     public UserMapper(ModelMapper mapper) {
         this.mapper = mapper;
-//        this.mapper.getConfiguration().setSkipNullEnabled(true);
     }
 
     @Override
