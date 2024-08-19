@@ -1,6 +1,5 @@
 package com.project.planner.services;
 
-import com.project.planner.common.JWTFacadeImpl;
 import com.project.planner.exceptions.AuthException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
