@@ -75,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.EMPTY_SET; // TODO(11jolek11): How to cope with that?
+        return Collections.emptySet(); // TODO(11jolek11): How to cope with that?
     }
 
     @Override
