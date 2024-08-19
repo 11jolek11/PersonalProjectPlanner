@@ -16,7 +16,7 @@ PersonalProjectPlanner is a tool designed to support the design and development 
 ## API Reference
 
 <details>
-<summary>## API Reference</summary>
+<summary>OPEN</summary>
 
 
 #### Auth
